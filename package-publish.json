@@ -1,0 +1,27 @@
+{
+  "name": "@fjsc/snowplow-tracker",
+  "version": "",
+  "main": "./sp.js",
+  "module": "./bundle.js",
+  "contributors": [
+    "Alex Dean",
+    "Simon Andersson",
+    "Anthon Pang",
+    "Fred Blundun",
+    "Joshua Beemster",
+    "Michael Hadam"
+  ],
+  "description": "JavaScript tracker for Snowplow",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/snowplow/snowplow-javascript-tracker.git"
+  },
+  "bugs": "https://github.com/snowplow/snowplow-javascript-tracker/issues",
+  "keywords": [
+    "tracking",
+    "web analytics",
+    "events",
+    "open source"
+  ],
+  "license": "Simplified BSD"
+}

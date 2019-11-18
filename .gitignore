@@ -26,6 +26,9 @@ tags/tag.min.js
 # creds for Grunt
 aws.json
 
+# build folder
+dist
+
 # Vagrant
 .vagrant
 VERSION

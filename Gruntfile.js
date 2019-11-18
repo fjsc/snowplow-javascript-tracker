@@ -108,6 +108,8 @@ module.exports = function(grunt) {
       }
     },
 
+    clean: ['dist'],
+
     concat: {
       deploy: {
         options: {
@@ -143,11 +145,21 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-aws');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-babel');
+
+
+  grunt.registerTask('package', 'Generate publish package.json', function() {
+    var pkg = grunt.file.readJSON('package.json');
+    var pkgPublish = grunt.file.readJSON('package-publish.json');
+    pkgPublish.version = pkg.version;
+    grunt.file.write('dist/package.json', JSON.stringify(pkgPublish, null, 2));
+  });
+
 
   grunt.registerTask('upload_setup', 'Read aws.json and configure upload tasks', function() {
     var aws = grunt.file.readJSON('aws.json');
@@ -215,7 +227,7 @@ module.exports = function(grunt) {
     });
   });
 
-  grunt.registerTask('default', 'Build Browserify, add banner, and minify', ['browserify:main', 'babel:dist', 'concat:deploy', 'uglify:deploy']);
+  grunt.registerTask('default', 'Build Browserify, add banner, and minify', ['clean', 'browserify:main', 'babel:dist', 'concat:deploy', 'uglify:deploy', 'package']);
   grunt.registerTask('publish', 'Upload to S3 and invalidate Cloudfront (full semantic version only)', ['upload_setup', 'browserify:main', 'babel:dist', 'concat:deploy', 'uglify:deploy', 's3:not_pinned', 'cloudfront:not_pinned']);
   grunt.registerTask('publish-pinned', 'Upload to S3 and invalidate Cloudfront (full semantic version and semantic major version)', ['upload_setup', 'browserify:main', 'babel:dist', 'concat:deploy', 'uglify:deploy', 's3', 'cloudfront']);
   grunt.registerTask('quick', 'Build snowplow.js, skipping building and minifying', ['browserify:main', 'babel:dist', 'concat:deploy']);
